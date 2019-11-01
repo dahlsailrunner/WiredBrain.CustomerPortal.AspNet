@@ -5,7 +5,7 @@ namespace WiredBrain.CustomerPortal.Web.Data
 {
     public class CustomerPortalDbContext : DbContext
     {
-        public CustomerPortalDbContext(DbConnection connection): base(connection, false)
+        public CustomerPortalDbContext(): base("CustomerPortalDbContext")
         {
         }
 

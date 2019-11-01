@@ -11,16 +11,15 @@ namespace WiredBrain.CustomerPortal.Web.Repositories
 
         public CustomerRepository()
         {
-            var connection = Effort.DbConnectionFactory.CreateTransient();
-            dbContext = new CustomerPortalDbContext(connection);
-            if (!dbContext.Customers.Any())
-                dbContext.Seed();
+            dbContext = new CustomerPortalDbContext();
         }
 
-        public async Task<Customer> GetCustomerByLoyaltyNumber(int loyaltyNumber)
+        public Task<Customer> GetCustomerByLoyaltyNumber(int loyaltyNumber)
         {
-            var customer = dbContext.Customers.SingleOrDefault(c => c.LoyaltyNumber == loyaltyNumber);
-            return customer;
+            var customers = dbContext.Customers
+                .SqlQuery("SELECT * FROM CustomersXXX where LoyaltyNumber = " + loyaltyNumber).ToList();
+            var customer = customers.FirstOrDefault();
+            return Task.FromResult(customer);
         }
 
         public async Task SetFavorite(EditFavoriteModel model)
